@@ -1,5 +1,8 @@
 package binaryTree;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * 二叉树题目的递归解法可以分为两类思路：
  * 第一类是遍历一遍二叉树得出答案，对应回溯算法核心框架
@@ -52,6 +55,29 @@ public class MaxDepthBinaryTree {
 
         // 返回最大深度
         return max;
+    }
+
+
+    // 如何利用分解问题，分步计算问题的思路，来计算一个二叉树的前序遍历结果（也就是不要借助外部变量）
+    List<Integer> computedPreorder(BinaryTreeNode root) {
+
+        // 首先明确结果的定义
+        // 一颗二叉树的前序遍历结果，等于这棵树的根节点+左子树的前序遍历结果+右子树的前序遍历结果
+        List<Integer> res = new LinkedList<>();
+        if (root == null) {
+            return res;
+        }
+
+        // 左子树的前序遍历结果
+        List<Integer> leftPreorderRes = computedPreorder(root.left);
+        // 右子树的前序遍历结果
+        List<Integer> rightPreorder = computedPreorder(root.right);
+
+        // 整颗树的前序遍历结果
+        res.add(root.val);
+        res.addAll(leftPreorderRes);
+        res.addAll(rightPreorder);
+        return res;
     }
 
 }
